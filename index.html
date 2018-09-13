@@ -46,6 +46,7 @@
             "price":4000000
         }
     ];
+    
     var app = new Vue({
         el: '#basic-01',
         data: {
@@ -53,7 +54,8 @@
             item:{},// push item from input 
             items: items,
             count:items.length,//length items 
-            price:0 //price
+            price:0 //price,
+          
         },
         created:function () {
            this.sumPrice();
@@ -77,8 +79,8 @@
                 this.price = parseInt(this.price)+parseInt(this.item.price);
 
                  //empty input 
-                 this.item.name=null;
-                 this.item.price=null;
+                this.item.name=null;
+                this.item.price=null;   
 
             },
 
