@@ -14,21 +14,24 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <h2>{{title}}</h2>
-                <div class="form-group">
-                    <label>Add phone</label>
-                    <input type="text" name="phone" placeholder="Phone name?" v-model="item.name" />
-                    <input type="number" name="price" placeholder="price?" v-model="item.price" />
-                    <button type="button" class="add-phone" v-on:click="addItem">Add</button>
-                    <br/>
-                    <span>Count:{{count}}</span>
-                    <br/>
-                    <span>price:{{price}}</span>
+                <template id="form-component">
+                    <div class="form-group">
+                        <label>First name</label>
+                        <input type="text" class="form-control" placeholder="Enter name" v-bind:value="value" type="text" id="name" v-on:input="onInput"/>
+                    </div>
+                </template>
+                <template ID="info-component">
+                    <label>{{msg}}:{{first_name}}</label>
+                </template>
+                <template id="box-form">
+                    <div>
+                        <form-component v-model="first_name"></form-component>
+                        <info-component :first_name="first_name"></info-component>
+                    </div>
+                </template>
+                <div id="app">
+                    <box-form></box-form>
                 </div>
-                <h3>Lists all</h3>
-                <ul class="list-group">
-                    <li class="list-group-item" v-for="(item,index) in items">{{item.name}}</li>
-                </ul>
             </div>
             <div class="col-md-2"></div>
         </div>
@@ -36,63 +39,40 @@
 </body>
 <script src="../bootstrap-4/js/bootstrap.min.js"></script>
 <script>
-    var items= [
-        {
-            "name": "Iphone 6 64GB",
-            "price":6000000
-        },
-        {
-            "name": "Xiaomi Note 4 32GB",
-            "price":4000000
+
+  Vue.component('form-component',{
+      template:'#form-component',
+      props:['value'],
+      methods: {
+        onInput: function (event) {
+            this.$emit('input', event.target.value)
         }
-    ];
-    
-    var app = new Vue({
-        el: '#basic-01',
-        data: {
-            title: "Shop phone",//title app
-            item:{},// push item from input 
-            items: items,
-            count:items.length,//length items 
-            price:0 //price,
-          
-        },
-        created:function () {
-           this.sumPrice();
-        },
-        methods:{
+      }
+  });
 
-            //function add item
-            addItem:function(){
-                console.log(this.item.name);
-                //add item push items
-                this.items.push({
-                    "name":this.item.name,
-                    "price":this.item.price
-                })
-                
-               
-                //update count
-                this.count=this.items.length;
+  Vue.component('info-component',{
+      template:'#info-component',
+      data:function(){
+          return{
+              "msg":"Fist Name",
+          }
+      },
+      props:['first_name']
+  });
 
-                //update price
-                this.price = parseInt(this.price)+parseInt(this.item.price);
+  Vue.component('box-form',{
+      template:'#box-form',
+      data:function(){
+          return{
+              first_name:"Skipperhoa"
+          }
+      }
 
-                 //empty input 
-                this.item.name=null;
-                this.item.price=null;   
+  });
 
-            },
-
-            //function sum price items
-            sumPrice:function(){
-                items.forEach(element => {
-                    this.price+=parseInt(element.price);
-                });
-            }  
-        }
-    })
-
+  new Vue({
+      el:"#app",
+  });
 
 </script>
 
