@@ -27,6 +27,7 @@
                     <div>
                         <form-component v-model="first_name"></form-component>
                         <info-component :first_name="first_name"></info-component>
+                        
                     </div>
                 </template>
                 <div id="app">
@@ -39,7 +40,7 @@
 </body>
 <script src="../bootstrap-4/js/bootstrap.min.js"></script>
 <script>
-
+  import ListName  from './ListName.vue';
   Vue.component('form-component',{
       template:'#form-component',
       props:['value'],
